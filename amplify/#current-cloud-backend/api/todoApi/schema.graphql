@@ -1,0 +1,6 @@
+type Todo @model @auth{
+  id: ID!
+  name: String!
+  description: String
+  time: String
+}

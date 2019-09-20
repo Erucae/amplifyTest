@@ -1,0 +1,41 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplifyproject-test-20190919143906-authRole",
+			"UnauthRoleArn": "arn:aws:iam::082042224423:role/amplifyproject-test-20190919143906-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::082042224423:role/amplifyproject-test-20190919143906-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "amplifyproject-test-20190919143906-deployment",
+			"UnauthRoleName": "amplifyproject-test-20190919143906-unauthRole",
+			"StackName": "amplifyproject-test-20190919143906",
+			"StackId": "arn:aws:cloudformation:us-east-1:082042224423:stack/amplifyproject-test-20190919143906/17196b80-dad2-11e9-a39a-0e8cd4caae34"
+		}
+	},
+	"api": {
+		"todoApi": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "api for todo list",
+							"apiKeyExpirationDays": "90"
+						}
+					}
+				},
+				"GraphQLAPIIdOutput": "uuhw536vujaphbrqpfajkp32nm",
+				"GraphQLAPIEndpointOutput": "https://6oqacvdcd5ehbkhflibujnjzpy.appsync-api.us-east-1.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-iawhwbfha5c3dhf3efuwpxphxy"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplifyproject-test-20190919143906-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apitodoApi"
+			},
+			"lastPushTimeStamp": "2019-09-19T11:52:11.361Z",
+			"lastPushDirHash": "8ChFuZTmo4+xI36vUQyw7grW1nc="
+		}
+	}
+}
