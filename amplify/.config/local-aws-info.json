@@ -1,7 +1,0 @@
-{
-    "test": {
-        "configLevel": "project",
-        "useProfile": true,
-        "profileName": "default"
-    }
-}
