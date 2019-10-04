@@ -1,39 +1,43 @@
 import React from 'react';
 import {View, Button, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import {setFilter} from "./actions";
 
-
-const Bottom = () => {
+const Bottom = ({setFilter}) => {
   return (
     <View  style={{flex: 1}}>
       <View style={styles.container}>
       <Button
         title="All"
-        onPress={() => {}}
+        onPress={() => {setFilter('all')}}
       />
       <Button
         title="Active"
-        onPress={() => {}}
+        onPress={() => {setFilter('active')}}
       />
       <Button
         title="Completed"
-        onPress={() => {}}
+        onPress={() => {setFilter('completed')}}
       />
       </View>
-
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    // flex: 2,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    borderColor: 'red',
-    borderWidth: 2,
+ //   borderColor: 'red',
+   // borderWidth: 2,
   },
   button: {
     width: '30%'
   }
 });
-export default Bottom;
+
+const mapDispatchToProps = dispatch => ({
+  setFilter: (filter) => dispatch(setFilter(filter)),
+});
+
+export default connect(null, mapDispatchToProps)(Bottom);

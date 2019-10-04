@@ -1,26 +1,30 @@
-import API, {graphqlOperation} from "@aws-amplify/api";
-import {listTodos} from "../graphql/queries";
-import config from "../../aws-exports";
-import PubSub from "@aws-amplify/pubsub";
-
-API.configure(config);            // Configure Amplify
-PubSub.configure(config);
+import {graphQLOperation} from './helpers';
 
 export const QUERY = "QUERY";
-export const SUBSCRIPTION = "SUBSCRIPTION";
+export const SUBSCRIPTION_ON_CREATE_TODO = "SUBSCRIPTION_ON_CREATE_TODO";
+export const SUBSCRIPTION_ON_UPDATE_TODO = 'SUBSCRIPTION_ON_UPDATE_TODO';
 export const FETCH_QUERY_BEGINNING = 'FETCH_QUERY_BEGINNING';
 export const FETCH_QUERY_SUCCESS = 'FETCH_QUERY_SUCCESS';
 export const FETCH_QUERY_FAIL = 'FETCH_QUERY_FAIL';
+export const SET_FILTER = 'SET_FILTER';
+export const ADD_TODOS = 'ADD_TODOS';
+export const SET_DIALOG = 'SET_DIALOG';
 
+const add_Todos = todos => ({
+  type: ADD_TODOS,
+  payload: {
+    todos
+  }
+});
 
 const fetchQueryBeginning = () => {
   return {
     type: FETCH_QUERY_BEGINNING
   }
-}
+};
 
 const fetchQuerySuccess = data => {
-  console.log(data);
+  // console.log(data);
   return {
     type: FETCH_QUERY_SUCCESS,
     payload: {
@@ -38,30 +42,86 @@ const fetchQueryFail = error => {
   }
 };
 
-export const fetchQuery = (listTodos) => {
-  return async dispatch => {
-    dispatch(fetchQueryBeginning());
-
-    API.graphql(graphqlOperation(listTodos))
-      .then(result => {dispatch(fetchQuerySuccess(result))})
-      .catch(error => {dispatch(fetchQueryFail(error))});
-  }
-};
-
-export const handleQuery = (data) => {
+export const setFilter = filter => {
   return {
-    type: QUERY,
+    type: SET_FILTER,
     payload: {
-      todos: data
+      filter
     }
   }
 };
 
-export const handleSubscription = (data) => ({
-  type: SUBSCRIPTION,
+const getLists = async (listTodos, nextToken = null) => {
+  return graphQLOperation(listTodos, nextToken);
+};
+
+export const fetchQuery = (listTodos) => {
+  return async dispatch => {
+    dispatch(fetchQueryBeginning());
+
+    getLists(listTodos)
+      .then(async result => {
+        console.log('actions 73');
+        console.log(result.data.listTodos.nextToken);
+        dispatch(fetchQuerySuccess(result));
+        // getLists(listTodos, {nextToken: result.data.listTodos.nextToken}).then(result => dispatch(fetchQuerySuccess(result)))
+        // dispatch(fetchQuerySuccess(result));
+      })
+      .catch(error => {
+        dispatch(fetchQueryFail(error))
+      });
+  }
+};
+
+const createTodoSubscription = (data) => ({
+  type: SUBSCRIPTION_ON_CREATE_TODO,
   payload: {
     todo: data
   }
 });
 
+export const onCreateTodoSubscription = subscription => {
+  return dispatch => {
+    return graphQLOperation(subscription).subscribe({
+      next: eventData => {
+        const todo = eventData.value.data.onCreateTodo;
+        dispatch(createTodoSubscription(todo));
+        dispatch(setDialog(true, 'Todo was created', todo.name));
+
+        console.log(todo);
+        console.log('actions 91');
+      }
+    })
+  }
+};
+
+const updateTodoSubscription = (data) => ({
+  type: SUBSCRIPTION_ON_UPDATE_TODO,
+  payload: {
+    newTodo: data
+  }
+});
+
+export const onUpdateTodoSubscription = (subscription) => {
+  return dispatch => {
+    return graphQLOperation(subscription).subscribe({
+      next: eventData => {
+        const todo = eventData.value.data.onUpdateTodo;
+        dispatch(updateTodoSubscription(todo));
+        console.log(todo);
+        console.log('actions 112');
+
+      }
+    });
+  }
+};
+
+export const setDialog = (value, title, message) => ({
+  type: SET_DIALOG,
+  payload: {
+    showDialog: value,
+    title,
+    message
+  }
+});
 

@@ -9,6 +9,13 @@
             "UnauthRoleName": "amplifyproject-test-20190919143906-unauthRole",
             "StackName": "amplifyproject-test-20190919143906",
             "StackId": "arn:aws:cloudformation:us-east-1:082042224423:stack/amplifyproject-test-20190919143906/17196b80-dad2-11e9-a39a-0e8cd4caae34"
+        },
+        "categories": {
+            "auth": {
+                "amplifyprojectb3fea6ea": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"394347568157898\",\"client_secret\":\"dc2cd59e4b92c604344015e0035dc062\"},{\"ProviderName\":\"Google\",\"client_id\":\"86848591885-pcvo4gsh7dfq09o7igoeacrhqdko5o2g.apps.googleusercontent.com\",\"client_secret\":\"lkuzCgvOYtsheVaP8P8BI9_t\"},{\"ProviderName\":\"LoginWithAmazon\",\"client_id\":\"amzn1.application-oa2-client.30d31882e1794c68b4984697305c0e43\",\"client_secret\":\"d8b9e79ca1eb83d40b2a0e85db3280c7b49a8252a322373e4dfb09b0c4c3557e\"}]"
+                }
+            }
         }
     }
 }

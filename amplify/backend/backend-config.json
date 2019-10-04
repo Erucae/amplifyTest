@@ -9,12 +9,19 @@
 					"defaultAuthentication": {
 						"authenticationType": "API_KEY",
 						"apiKeyConfig": {
-							"description": "api for todo list",
-							"apiKeyExpirationDays": "90"
+							"description": "API key desc",
+							"apiKeyExpirationDays": 180
 						}
 					}
 				}
 			}
+		}
+	},
+	"auth": {
+		"amplifyprojectb3fea6ea": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
 		}
 	}
 }

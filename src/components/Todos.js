@@ -1,64 +1,88 @@
 import React, {Component} from 'react';
-import {View, SafeAreaView, FlatList, StyleSheet, Text, TouchableHighlight} from 'react-native';
+import {View, SafeAreaView, FlatList, StyleSheet, Text, TouchableHighlight, TouchableOpacity} from 'react-native';
 import ActivityIndicator from "./ActivityIndicator";
 import {connect} from 'react-redux';
-import API, {graphqlOperation} from "@aws-amplify/api";
 import {listTodos} from "../graphql/queries";
-import config from "../../aws-exports";
-import PubSub from "@aws-amplify/pubsub";
-import {fetchQuery} from "./actions";
-
-API.configure(config) ;            // Configure Amplify
-PubSub.configure(config);
+import {fetchQuery, onUpdateTodoSubscription} from "./actions";
+import {updateTodo} from "../graphql/mutations";
+import {onUpdateTodo} from "../graphql/subscriptions";
+import {graphQLOperation} from './helpers';
 
 class Todos extends Component {
+  state = {
+    updateTodoSubscription: null
+  };
 
   getData() {
     this.props.getTodos(listTodos);
   };
 
   componentDidMount() {
+    const updateTodoSubscription = this.props.onUpdateTodoSubscription(onUpdateTodo) ;
+    this.setState({updateTodoSubscription});
     this.getData();
-    console.log("some data1");
-    console.log(this.props.todos);
   };
 
-  listData = this.props.todos.map(todo => ({
-    id: todo.id,
-    title: todo.name,
-    description: todo.description,
-    time: todo.time
-  }));
+  componentWillUnmount() {
+    this.state.updateTodoSubscription.unsubscribe();
+  };
+
+  handleTodoPress = todo => {
+    graphQLOperation(updateTodo, {input: {...todo, time: '05.06.1995', completed: !todo.completed}})
+      .catch(error => {
+        console.log(error);
+        console.log('Todos 24');
+      });
+  };
+
+  filterTodos = () => {
+    const {todos, filter} = this.props;
+    switch (filter) {
+      case 'all': return todos;
+      case 'active': return todos.filter(todo => !todo.completed);
+      case 'completed': return todos.filter(todo => todo.completed);
+      default: return todos;
+    }
+  };
 
   render() {
-    const {todos, loading} = this.props;
+    const {loading} = this.props;
 
-    const listData = todos.map(todo => ({
+    const listData = this.filterTodos().map(todo => ({
       id: todo.id,
-      title: todo.name,
+      name: todo.name,
       description: todo.description,
-      time: todo.time
+      time: todo.time,
+      active: todo.active,
+      all: todo.all,
+      completed: todo.completed
     }));
 
     if(loading)
-      return <ActivityIndicator/>
+      return <ActivityIndicator/>;
 
     return (
-      <View style={styles.container}>
-        <SafeAreaView style={styles.container}>
+      <View
+        style={styles.container}
+        // onMoveShouldSetResponderCapture={(event => true)}
+      >
+        <SafeAreaView>
           <FlatList
             keyExtractor={(item) => item.id}
             data={listData}
             renderItem={({item, index, separators}) => (
-              <TouchableHighlight
-                onPress={() => {}}
+              <TouchableOpacity
+                onPress={() => {this.handleTodoPress(item)}}
                 // onShowUnderlay={separators.highlight}
                 // onHideUnderlay={separators.unhighlight}
               >
-                <View style={{backgroundColor: 'white'}}>
-                  <Text>{item.title}</Text>
+                <View style={{backgroundColor: 'white', flex: 1}}>
+                  <Text
+                    style={[styles.text, item.completed? styles.completedTodo:null]}
+                  >
+                    {item.name}</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             )}
             />
 
@@ -72,20 +96,31 @@ class Todos extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // display: 'flex',
     flex: 1,
-    alignItems: 'center',
+    width: '100%',
+    alignItems: 'flex-start',
+    marginLeft: 5,
+   // borderColor: 'black',
+   // borderWidth: 2
     // height: 100
+  },
+  text: {
+    fontSize: 22,
+  },
+  completedTodo: {
+    textDecorationLine: 'line-through'
   }
 })
 
 const mapStateToProps = state => ({
-  todos: state.todos,
-  loading: state.loading
+  todos: state.queryReducer.todos,
+  loading: state.queryReducer.loading,
+  filter: state.filterReducer.filter
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getTodos: (data) => dispatch(fetchQuery(data)),
+  onUpdateTodoSubscription: newTodo => dispatch(onUpdateTodoSubscription(newTodo)),
 }) ;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

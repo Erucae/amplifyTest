@@ -1,6 +1,8 @@
-type Todo @model @auth{
+type Todo @model {
   id: ID!
   name: String!
   description: String
   time: String
+  completed: Boolean
+
 }

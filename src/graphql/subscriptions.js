@@ -7,6 +7,7 @@ export const onCreateTodo = `subscription OnCreateTodo {
     name
     description
     time
+    completed
   }
 }
 `;
@@ -16,6 +17,7 @@ export const onUpdateTodo = `subscription OnUpdateTodo {
     name
     description
     time
+    completed
   }
 }
 `;
@@ -25,6 +27,7 @@ export const onDeleteTodo = `subscription OnDeleteTodo {
     name
     description
     time
+    completed
   }
 }
 `;

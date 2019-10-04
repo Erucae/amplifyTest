@@ -114,14 +114,14 @@
                         "ApiId"
                     ]
                 },
-                "Description": "api for todo list",
+                "Description": "API key desc",
                 "Expires": {
                     "Fn::If": [
                         "APIKeyExpirationEpochIsPositive",
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1576669730
+                        1584889985
                     ]
                 }
             },

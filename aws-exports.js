@@ -5,7 +5,25 @@ const awsmobile = {
     "aws_appsync_graphqlEndpoint": "https://6oqacvdcd5ehbkhflibujnjzpy.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-iawhwbfha5c3dhf3efuwpxphxy"
+    "aws_appsync_apiKey": "da2-iawhwbfha5c3dhf3efuwpxphxy",
+    "aws_cognito_identity_pool_id": "us-east-1:4b34cfd5-e707-4432-9a9c-49a6b2eb4723",
+    "aws_cognito_region": "us-east-1",
+    "aws_user_pools_id": "us-east-1_JEGRSXJ1m",
+    "aws_user_pools_web_client_id": "1siqsh7nie77r156gmpve4bdh5",
+    "oauth": {
+        "domain": "amplifyprojectb3fea6ea-b3fea6ea-test.auth.us-east-1.amazoncognito.com",
+        "scope": [
+            "phone",
+            "email",
+            "openid",
+            "profile",
+            "aws.cognito.signin.user.admin"
+        ],
+        "redirectSignIn": "https://192.168.0.80:19006/",
+        "redirectSignOut": "https://192.168.0.80:19006/",
+        "responseType": "code"
+    },
+    "federationTarget": "COGNITO_USER_POOLS"
 };
 
 
