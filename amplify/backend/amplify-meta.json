@@ -1,0 +1,65 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplifyproject-test-20190919143906-authRole",
+			"UnauthRoleArn": "arn:aws:iam::082042224423:role/amplifyproject-test-20190919143906-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::082042224423:role/amplifyproject-test-20190919143906-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "amplifyproject-test-20190919143906-deployment",
+			"UnauthRoleName": "amplifyproject-test-20190919143906-unauthRole",
+			"StackName": "amplifyproject-test-20190919143906",
+			"StackId": "arn:aws:cloudformation:us-east-1:082042224423:stack/amplifyproject-test-20190919143906/17196b80-dad2-11e9-a39a-0e8cd4caae34"
+		}
+	},
+	"api": {
+		"todoApi": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "API key desc",
+							"apiKeyExpirationDays": 180
+						}
+					}
+				},
+				"GraphQLAPIIdOutput": "uuhw536vujaphbrqpfajkp32nm",
+				"GraphQLAPIEndpointOutput": "https://6oqacvdcd5ehbkhflibujnjzpy.appsync-api.us-east-1.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-iawhwbfha5c3dhf3efuwpxphxy"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplifyproject-test-20190919143906-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apitodoApi"
+			},
+			"lastPushTimeStamp": "2019-10-01T09:09:30.142Z",
+			"lastPushDirHash": "mxXk6l5KNOtkouTdh7lzbjTwibM="
+		}
+	},
+	"auth": {
+		"amplifyprojectb3fea6ea": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplifyproject-test-20190919143906-deployment/amplify-cfn-templates/auth/amplifyprojectb3fea6ea-cloudformation-template.yml",
+				"logicalId": "authamplifyprojectb3fea6ea"
+			},
+			"lastPushTimeStamp": "2019-10-01T09:09:30.144Z",
+			"output": {
+				"AppClientSecret": "eq1842m668qrllirihf2ef9du1tpgg4h253oujo5plc4vdilbqd",
+				"UserPoolId": "us-east-1_JEGRSXJ1m",
+				"AppClientIDWeb": "1siqsh7nie77r156gmpve4bdh5",
+				"AppClientID": "30mmpk81nmdg900fqci2fr2jqi",
+				"HostedUIDomain": "amplifyprojectb3fea6ea-b3fea6ea-test",
+				"IdentityPoolId": "us-east-1:4b34cfd5-e707-4432-9a9c-49a6b2eb4723",
+				"IdentityPoolName": "amplifyprojectb3fea6ea_identitypool_b3fea6ea__test",
+				"OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://192.168.0.80:19006/\"],\"LogoutURLs\":[\"https://192.168.0.80:19006/\"]}",
+				"UserPoolName": "amplifyprojectb3fea6ea_userpool_b3fea6ea"
+			},
+			"lastPushDirHash": "CIyQxc9lLwnKX9iCcKX/cNkb+3s="
+		}
+	}
+}
